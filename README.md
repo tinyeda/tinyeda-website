@@ -1,3 +1,3 @@
 # website
 
-Website code for tinyeda.com, an Electronic Design Automation startup.
+Website code for [tinyeda.com](https://tinyeda.com), an Electronic Design Automation startup.
