@@ -2,8 +2,8 @@
 <html lang="en">
 	<head>
 		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<meta name="color-scheme" content="light dark">
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="color-scheme" content="light dark" />
 		<meta
 			name="description"
 			content="TinyEDA is a startup developing performant and simple Electronic Design Automation tools for the chip design industry."
@@ -11,49 +11,187 @@
 		<title>TinyEDA : Fast chip design</title>
 	</head>
 	<style>
-	body {
-		margin: 1em auto;
-		max-width: 40em;
-		padding: 0 0.62em 3.24em;
-		font: 1.2em/1.62 sans-serif;
-	}
-	.header-org-name {
-		text-align: center;
-	}
+		* {
+			box-sizing: border-box;
+		}
+		body {
+			margin: 0;
+			font: 1.2em/1.62 sans-serif;
+		}
+		a {
+			color: inherit;
+			text-decoration: none;
+		}
+		main {
+			margin: 0 auto;
+			max-width: 40em;
+			padding: 0 0.62em 3.24em;
+		}
+		.site-bar {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			gap: 1.5rem;
+			padding: 1rem max(1rem, 4vw);
+			background: #111;
+			color: #eee;
+		}
+		header.site-bar {
+			position: relative;
+			z-index: 3;
+		}
+		footer.site-bar {
+			padding-block: 1.5rem;
+		}
+		.site-title {
+			margin: 0;
+			font-size: 1em;
+			line-height: 1;
+			font-weight: bold;
+			position: relative;
+			z-index: 3;
+		}
+		.site-note {
+			margin: 0.25rem 0 0;
+			color: #bbb;
+			font-size: 0.9em;
+		}
+		.site-links {
+			display: flex;
+			gap: 1.25rem;
+			margin-left: auto;
+		}
+		.menu-toggle {
+			display: none;
+		}
+		.hamburger {
+			display: none;
+			width: 2.5rem;
+			height: 2.5rem;
+			margin-left: auto;
+			cursor: pointer;
+			flex-direction: column;
+			justify-content: center;
+			align-items: center;
+			gap: 0.35rem;
+			position: relative;
+			z-index: 3;
+		}
+		.hamburger span {
+			display: block;
+			width: 2rem;
+			height: 2px;
+			background: currentColor;
+			border-radius: 999px;
+			transition:
+				transform 150ms ease,
+				opacity 150ms ease;
+		}
+		@media (max-width: 40rem) {
+			body:has(.menu-toggle:checked) {
+				overflow: hidden;
+			}
+			.hamburger {
+				display: flex;
+			}
+			.site-menu {
+				display: none;
+				position: fixed;
+				inset: 0;
+				margin-left: 0;
+				padding: 7rem max(1rem, 8vw) 2rem;
+				background: #111;
+				flex-direction: column;
+				align-items: flex-start;
+				font-size: 1.25em;
+				z-index: 1;
+			}
+			.menu-toggle:checked ~ .site-menu {
+				display: flex;
+			}
+			.menu-toggle:checked + .hamburger span:nth-child(1) {
+				transform: translateY(0.45rem) rotate(45deg);
+			}
+			.menu-toggle:checked + .hamburger span:nth-child(2) {
+				opacity: 0;
+			}
+			.menu-toggle:checked + .hamburger span:nth-child(3) {
+				transform: translateY(-0.45rem) rotate(-45deg);
+			}
+			footer.site-bar {
+				flex-direction: column;
+				align-items: flex-start;
+			}
+			footer .site-links {
+				margin-left: 0;
+				flex-wrap: wrap;
+			}
+		}
 	</style>
 	<body>
-		<main role="main">
-		<h1 class="header-org-name">TinyEDA</h1>
-		<p>
-			<b>TinyEDA</b> is building high performance, easy to use EDA tools to
-			speed up chip design.
-		</p>
-		<h2>Why?</h2>
-		<p>
-			Most EDA (Electronic Design Automation)
-			tools were built decades ago (~1980s).<br />
-			Therefore a lot of these tools were built under assumptions of
-			computing very different to how modern day computing works.<br />
-			All of these tools have an arcane look/user-experience and require a
-			lot of gluing and scripting together different pieces of the
-			workflow to get things done.<br />
-			This is ultimately good for EDA tool vendors since they will happily
-			charge you for setting things up and provide you with an environment
-			that 'just works' for the <i>most part</i>.<br />
-			We are changing this by building performant, user-friendly tools, with
-			user-friendly interfaces (graphical and non-graphical) so you don't have
-			to spend time writing tcl/python scripts orchestrating different workflows
-			and can spend time actually working on your product's design.
-		</p>
-		<h2>How?</h2>
-		<p>
-			We are creating faster / simpler tools using the following methods:-
+		<header class="site-bar">
+			<h1 class="site-title"><a href="#">TinyEDA</a></h1>
+			<input id="menu-toggle" class="menu-toggle" type="checkbox" />
+			<label class="hamburger" for="menu-toggle" aria-label="Menu">
+				<span></span><span></span><span></span>
+			</label>
+			<nav class="site-links site-menu">
+				<a href="https://github.com/tinyeda">GitHub</a>
+			</nav>
+		</header>
+		<main>
+			<p>
+				<b>TinyEDA</b> is building high performance, easy to use EDA
+				tools to speed up chip design.
+			</p>
+			<h2 id="why">Why?</h2>
+			<p>
+				Most EDA (Electronic Design Automation) tools were built decades
+				ago (~1980s).<br />
+				Therefore a lot of these tools were built under assumptions of
+				computing very different to how modern day computing works.<br />
+				All of these tools have an arcane look/user-experience and
+				require a lot of gluing and scripting together different pieces
+				of the workflow to get things done.<br />
+				This is ultimately good for EDA tool vendors since they will
+				happily charge you for setting things up and provide you with an
+				environment that 'just works' for the <i>most part</i>.<br />
+				We are changing this by building performant, user-friendly
+				tools, with user-friendly interfaces (graphical and
+				non-graphical) so you don't have to spend time writing
+				tcl/python scripts orchestrating different workflows and can
+				spend time actually working on your product's design.
+			</p>
+			<h2 id="how">How?</h2>
+			<p>
+				We are creating faster / simpler tools using the following
+				methods:
+			</p>
 			<ul>
-				<li>Developing faster algorithms (classic/ML) (for macro placement, place and route, static timing analysis, etc.)</li>
-				<li>GPU accelerating parallelizable workloads; Using SIMD/Vector compute for parallelisable CPU workloads.</li>
-				<li>Creating well-designed APIs that eliminate the need for glue scripting code between tools.</li>
+				<li>
+					Developing faster algorithms (classic/ML) (for macro
+					placement, place and route, static timing analysis, etc.)
+				</li>
+				<li>
+					GPU accelerating parallelizable workloads; Using SIMD/Vector
+					compute for parallelisable CPU workloads.
+				</li>
+				<li>
+					Creating well-designed APIs that eliminate the need for glue
+					scripting code between tools.
+				</li>
 			</ul>
-		</p>
 		</main>
+		<footer class="site-bar">
+			<div>
+				<p class="site-title">TinyEDA</p>
+				<p class="site-note">
+					Copyright © 2026 TinyEDA. All rights reserved.
+				</p>
+			</div>
+			<nav class="site-links">
+				<a href="https://github.com/tinyeda">GitHub</a>
+			</nav>
+		</footer>
 	</body>
 </html>
