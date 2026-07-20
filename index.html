@@ -6,7 +6,7 @@
 		<meta name="color-scheme" content="light dark" />
 		<meta
 			name="description"
-			content="TinyEDA is a startup developing performant and simple Electronic Design Automation tools for the chip design industry."
+			content="TinyEDA is developing performant and simple Electronic Design Automation tools for the chip design industry."
 		/>
 		<title>TinyEDA : Fast chip design</title>
 	</head>
@@ -24,7 +24,7 @@
 		}
 		main {
 			margin: 0 auto;
-			max-width: 40em;
+			max-width: 50em;
 			padding: 0 0.62em 3.24em;
 		}
 		.site-bar {
@@ -33,8 +33,8 @@
 			justify-content: space-between;
 			gap: 1.5rem;
 			padding: 1rem max(1rem, 4vw);
-			background: #111;
-			color: #eee;
+			background: canvas;
+			color: canvasText;
 		}
 		header.site-bar {
 			position: relative;
@@ -53,7 +53,7 @@
 		}
 		.site-note {
 			margin: 0.25rem 0 0;
-			color: #bbb;
+			color: GrayText;
 			font-size: 0.9em;
 		}
 		.site-links {
@@ -100,7 +100,7 @@
 				inset: 0;
 				margin-left: 0;
 				padding: 7rem max(1rem, 8vw) 2rem;
-				background: #111;
+				background: Canvas;
 				flex-direction: column;
 				align-items: flex-start;
 				font-size: 1.25em;
@@ -141,40 +141,39 @@
 		</header>
 		<main>
 			<p>
-				<b>TinyEDA</b> is building high performance, easy to use EDA
-				tools to speed up chip design.
+				<b>TinyEDA</b> is building simple & high performance Electronic Design Automation (EDA) tools to accelerate chip design.
 			</p>
 			<h2 id="why">Why?</h2>
 			<p>
-				Most EDA (Electronic Design Automation) tools were built decades
+				Most EDA tools were built decades
 				ago (~1980s).<br />
 				Therefore a lot of these tools were built under assumptions of
 				computing very different to how modern day computing works.<br />
-				All of these tools have an arcane look/user-experience and
-				require a lot of gluing and scripting together different pieces
-				of the workflow to get things done.<br />
+				All of these tools have an arcane look / user-experience and
+				require a lot of scripting to get things done.<br />
 				This is ultimately good for EDA tool vendors since they will
-				happily charge you for setting things up and provide you with an
-				environment that 'just works' for the <i>most part</i>.<br />
+				happily charge for setting things up and provide you with an
+				environment that <i>just works</i>.<br />
 				We are changing this by building performant, user-friendly
-				tools, with user-friendly interfaces (graphical and
-				non-graphical) so you don't have to spend time writing
-				tcl/python scripts orchestrating different workflows and can
+				tools, so you don't have to spend time writing
+				tcl / python scripts orchestrating different workflows and can
 				spend time actually working on your product's design.
 			</p>
 			<h2 id="how">How?</h2>
+			<p>
+				<b>TinyEDA Studio</b> is an Integrated Design Environment (IDE) for ASIC design to massively accelerate the Physical Design process while providing better PPA (Performance, Placement, Area) results. We also provide users with much better debuggability to trace root causes of errors and trace final errors in the final design back to the original RTL.
+			</p>
 			<p>
 				We are creating faster / simpler tools using the following
 				methods:
 			</p>
 			<ul>
 				<li>
-					Developing faster algorithms (classic/ML) (for macro
+					Developing faster algorithms (classic / ML) (for macro
 					placement, place and route, static timing analysis, etc.)
 				</li>
 				<li>
-					GPU accelerating parallelizable workloads; Using SIMD/Vector
-					compute for parallelisable CPU workloads.
+					GPU accelerating parallelizable workloads and using SIMD / Vector computer for parallel CPU workloads.
 				</li>
 				<li>
 					Creating well-designed APIs that eliminate the need for glue
