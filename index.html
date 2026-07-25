@@ -37,11 +37,38 @@
 			color: canvasText;
 		}
 		header.site-bar {
-			position: relative;
+			position: sticky;
+			top: 0;
 			z-index: 3;
 		}
 		footer.site-bar {
 			padding-block: 1.5rem;
+		}
+		.who {
+			display: flex;
+			flex-wrap: wrap;
+			padding: 0;
+			list-style: none;
+		}
+		.who li {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			gap: 0.5rem;
+			text-align: center;
+		}
+		.who img {
+			width: 10rem;
+			height: 10rem;
+			border-radius: 1rem;
+		}
+		.who .name {
+			margin: 0;
+			font-weight: bold;
+		}
+		.who .role {
+			margin: 0;
+			color: GrayText;
 		}
 		.site-title {
 			margin: 0;
@@ -136,10 +163,15 @@
 				<span></span><span></span><span></span>
 			</label>
 			<nav class="site-links site-menu">
+				<a href="#what">What</a>
+				<a href="#why">Why</a>
+				<a href="#how">How</a>
+				<a href="#who">Who</a>
 				<a href="https://github.com/tinyeda">GitHub</a>
 			</nav>
 		</header>
 		<main>
+			<h2 id="what">What?</h2>
 			<p>
 				<b>TinyEDA</b> is building simple & high performance Electronic Design Automation (EDA) tools to accelerate chip design.
 			</p>
@@ -176,8 +208,16 @@
 				<li>
 					Creating well-designed APIs eliminating glue scripting code between tools.
 				</li>
-			</ul>
-		</main>
+				</ul>
+				<h2 id="who">Who?</h2>
+				<ul class="who">
+				<li>
+					<img src="assets/rahul.webp" alt="Rahul Bhagwat" loading="lazy" decoding="async" />
+					<p class="name">Rahul Bhagwat</p>
+					<p class="role">Founder</p>
+				</li>
+				</ul>
+				</main>
 		<footer class="site-bar">
 			<div>
 				<p class="site-title">TinyEDA</p>
@@ -189,5 +229,8 @@
 				<a href="https://github.com/tinyeda">GitHub</a>
 			</nav>
 		</footer>
+		<script>
+			document.querySelectorAll(".site-menu a").forEach((a) => a.addEventListener("click", () => (document.getElementById("menu-toggle").checked = false)));
+		</script>
 	</body>
 </html>
