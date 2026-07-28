@@ -114,6 +114,10 @@
 				transform 150ms ease,
 				opacity 150ms ease;
 		}
+		.faqtable { counter-reset: faq; }
+		.faqtable dt { counter-increment: faq; margin-bottom: 0.75em; font-style: italic; }
+		.faqtable dt::before { content: counter(faq) ". "; }
+		.faqtable dd { margin-left: 2em; margin-bottom: 2em; }
 		@media (max-width: 40rem) {
 			body:has(.menu-toggle:checked) {
 				overflow: hidden;
@@ -167,6 +171,7 @@
 				<a href="#why">Why</a>
 				<a href="#how">How</a>
 				<a href="#who">Who</a>
+				<a href="#faq">FAQ</a>
 				<a href="https://github.com/tinyeda">GitHub</a>
 			</nav>
 		</header>
@@ -220,6 +225,15 @@
 					<p class="role">Founder</p>
 				</li>
 				</ul>
+				<h2 id="faq">FAQ</h2>
+				<dl class="faqtable">
+					<dt>Will i be able to run this fully locally?</dt>
+					<dd>Yes, we will have local apps for mac, windows, linux as well as a collaborative webapp</dd>
+					<dt>How difficult is it to switch over from my existing EDA suite?</dt>
+					<dd>We will provide tooling to port over all your tcl scripts and other tool specific config to make the switching process painless and inexpensive for your org</dd>
+					<dt>Mistakes can be expensive, why should we trust results from your software?</dt>
+					<dd>We will be formally verifying equivalence where possible and work closely with foundries to qualify our tools to be signoff ready.</dd>
+				</dl>
 				</main>
 		<footer class="site-bar">
 			<div>
