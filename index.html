@@ -114,10 +114,8 @@
 				transform 150ms ease,
 				opacity 150ms ease;
 		}
-		.faqtable { counter-reset: faq; }
-		.faqtable dt { counter-increment: faq; margin-bottom: 0.75em; font-style: italic; }
-		.faqtable dt::before { content: counter(faq) ". "; }
-		.faqtable dd { margin-left: 2em; margin-bottom: 2em; }
+		.faqtable dt { font-style: italic; }
+		.faqtable dd { margin-left: 1em; margin-bottom: 1em; }
 		@media (max-width: 40rem) {
 			body:has(.menu-toggle:checked) {
 				overflow: hidden;
