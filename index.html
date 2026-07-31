@@ -6,7 +6,7 @@
 		<meta name="description" content="TinyEDA is building performant and simple Electronic Design Automation tools and design IP for the chip design industry.">
 		<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme:light)">
 		<meta name="theme-color" content="#111111" media="(prefers-color-scheme:dark)">
-		<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 18 18'%3E%3Cstyle%3Erect%7Bfill:%23181818%7D@media(prefers-color-scheme:dark)%7Brect%7Bfill:%23fff%7D%7D%3C/style%3E%3Cg transform='rotate(45 9 9)'%3E%3Crect x='3' y='3' width='5' height='5'/%3E%3Crect x='10' y='3' width='5' height='5'/%3E%3Crect x='3' y='10' width='5' height='5'/%3E%3Crect x='10' y='10' width='5' height='5'/%3E%3C/g%3E%3C/svg%3E" />
+		<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 18 18'%3E%3Cstyle%3Erect%7Bfill:%23181818%7D@media(prefers-color-scheme:dark)%7Brect%7Bfill:%23fff%7D%7D%3C/style%3E%3Cg transform='rotate(45 9 9)'%3E%3Crect x='3' y='3' width='5' height='5'/%3E%3Crect x='10' y='3' width='5' height='5'/%3E%3Crect x='3' y='10' width='5' height='5'/%3E%3Crect x='10' y='10' width='5' height='5'/%3E%3C/g%3E%3C/svg%3E">
 		<title>TinyEDA: Accelerating chip design</title>
 		<style>
 			:root { color-scheme:light dark; --bg:#fff; --ink:#181818; --secondary:#454545; --muted:#707070; --line:#dedede; --soft:#eee; --dash:#aaa; --header:rgba(255,255,255,.96); --rail:260px; --width:800px }
@@ -159,14 +159,16 @@
 			</main>
 		</div>
 		<script>
-			const links=[...document.querySelectorAll('.menu a[href^="#"]')],sections=links.map(a=>document.querySelector(a.hash));let selected;
+			const links=[...document.querySelectorAll('.menu a[href^="#"]')],sections=links.map(a=>document.querySelector(a.hash));let selected,offsets,max=1,ticking;
 			function mark(section){links.forEach(a=>a.classList.toggle('active',a.hash==='#'+section.id))}
-			function setActive(){if(selected)return mark(selected);let current=sections[0],max=document.documentElement.scrollHeight-innerHeight||1,line=120+scrollY/max*(innerHeight*.75-120);for(const section of sections)if(section.getBoundingClientRect().top<=line)current=section;mark(current)}
+			function setActive(){if(selected)return mark(selected);let current=sections[0],line=120+scrollY/max*(innerHeight*.75-120),position=scrollY+line;for(let i=0;i<sections.length;i++)if(offsets[i]<=position)current=sections[i];mark(current)}
+			function refresh(){offsets=sections.map(section=>section.offsetTop);max=Math.max(document.documentElement.scrollHeight-innerHeight,1);setActive()}
+			function onScroll(){if(!ticking){ticking=true;requestAnimationFrame(()=>{setActive();ticking=false})}}
 			document.querySelectorAll('.menu a').forEach(a=>a.addEventListener('click',()=>{document.querySelector('#nav-toggle').checked=false;if(a.hash){selected=document.querySelector(a.hash);mark(selected)}}));
 			sections.forEach(section=>section.addEventListener('pointerdown',()=>{selected=section;mark(section)}));
 			for(const event of ['wheel','touchstart'])addEventListener(event,()=>selected=null,{passive:true});
 			addEventListener('keydown',e=>{if(['ArrowDown','ArrowUp','PageDown','PageUp','Home','End',' '].includes(e.key))selected=null});
-			addEventListener('scroll',setActive,{passive:true});setActive();
+			addEventListener('scroll',onScroll,{passive:true});addEventListener('resize',()=>requestAnimationFrame(refresh));new ResizeObserver(refresh).observe(document.querySelector('main'));requestAnimationFrame(refresh);
 		</script>
 	</body>
 </html>
