@@ -1,252 +1,172 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<meta name="color-scheme" content="light dark" />
-		<meta
-			name="description"
-			content="TinyEDA is building performant and simple Electronic Design Automation tools and design IP for the chip design industry."
-		/>
-		<title>TinyEDA : Fast chip design</title>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="description" content="TinyEDA is building performant and simple Electronic Design Automation tools and design IP for the chip design industry.">
+		<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme:light)">
+		<meta name="theme-color" content="#111111" media="(prefers-color-scheme:dark)">
+		<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 18 18'%3E%3Cstyle%3Erect%7Bfill:%23181818%7D@media(prefers-color-scheme:dark)%7Brect%7Bfill:%23eee%7D%7D%3C/style%3E%3Cg transform='rotate(45 9 9)'%3E%3Crect x='3' y='3' width='5' height='5'/%3E%3Crect x='10' y='3' width='5' height='5'/%3E%3Crect x='3' y='10' width='5' height='5'/%3E%3Crect x='10' y='10' width='5' height='5'/%3E%3C/g%3E%3C/svg%3E">
+		<title>TinyEDA: Fast chip design</title>
+		<style>
+			:root { color-scheme:light dark; --bg:#fff; --ink:#181818; --secondary:#454545; --muted:#707070; --line:#dedede; --soft:#eee; --dash:#aaa; --header:rgba(255,255,255,.96); --rail:260px; --width:800px }
+			* { box-sizing:border-box }
+			html { scroll-behavior:smooth }
+			body { margin:0; background:var(--bg); color:var(--ink); font:15px/1.6 "Helvetica Neue",Helvetica,Arial,sans-serif }
+			a { color:inherit; text-decoration:none }
+			a:hover { color:var(--ink) }
+			.layout { display:grid; grid-template-columns:var(--rail) 1fr; min-height:100vh; max-width:1400px; margin:auto }
+			.sidebar { position:sticky; top:0; height:100vh; padding:76px 0 48px 100px }
+			.logo { display:inline-flex; align-items:center; gap:9px; margin-bottom:28px; font-size:17px; font-weight:500; letter-spacing:-.04em }
+			.mark { width:12px; height:12px; transform:rotate(45deg) }
+			.mark::before { display:block; width:5px; height:5px; background:currentColor; box-shadow:7px 0,0 7px,7px 7px; content:"" }
+			.menu { display:flex; flex-direction:column; align-items:flex-start; gap:10px }
+			.menu a { color:var(--muted); line-height:1.3; letter-spacing:-.01em; transition:color .15s }
+			.menu a.active { color:var(--ink); font-weight:500 }
+			#nav-toggle { position:absolute; opacity:0; pointer-events:none }
+			.nav-button { display:none }
+			main { display:flex; min-width:0; min-height:100vh; flex-direction:column; max-width:920px; padding:80px 80px 52px 40px }
+			h1 { max-width:var(--width); margin:0 0 28px; font-size:clamp(34px,3.8vw,52px); font-weight:300; line-height:1.05; letter-spacing:-.04em }
+			.intro { max-width:var(--width); margin-bottom:50px; font-size:21px; line-height:1.55; letter-spacing:-.012em }
+			.intro p { margin:0 0 14px }
+			.intro p:last-child { color:var(--secondary); margin:0 }
+			.rows { max-width:var(--width) }
+			.row { display:grid; grid-template-columns:140px minmax(0,1fr); gap:20px; padding:22px 0 26px; border-top:1px solid var(--line); scroll-margin-top:20px }
+			.row h2 { margin:2px 0 0; color:var(--secondary); font-size:12px; font-weight:400; line-height:1.4; letter-spacing:.07em; text-transform:uppercase }
+			.copy { min-width:0; color:var(--secondary); font-size:17px; line-height:1.65 }
+			.copy p { margin:0 0 15px }
+			.copy p:last-child { margin-bottom:0 }
+			.copy strong { color:var(--ink); font-weight:500 }
+			.copy ul,.copy ol { margin:0; padding:0; list-style:none }
+			.copy li { position:relative; margin:0 0 9px; padding-left:16px }
+			.copy li:last-child { margin-bottom:0 }
+			.copy li::before { position:absolute; left:0; color:var(--dash); content:"–" }
+			.copy ol { counter-reset:item }
+			.copy ol li { counter-increment:item; padding-left:24px }
+			.copy ol li::before { content:counter(item,decimal-leading-zero); color:var(--muted); font-size:11px; letter-spacing:.04em; top:2px }
+			.subhead { display:block; margin:25px 0 10px; color:var(--ink); font-size:14px; font-weight:500 }
+			.person { display:grid; grid-template-columns:72px 1fr; align-items:center; gap:18px }
+			.person img { width:72px; height:72px; border-radius:2px }
+			.person p { margin:0 }
+			.person .role { color:var(--muted); font-size:14px }
+			details { border-bottom:1px solid var(--soft) }
+			details:first-child { border-top:1px solid var(--soft) }
+			summary { display:flex; justify-content:space-between; gap:20px; padding:16px 0; color:var(--ink); cursor:pointer; list-style:none }
+			summary::after { color:var(--muted); content:"+"; font-size:18px; line-height:1 }
+			details[open] summary::after { content:"−" }
+			details p { padding:0 36px 16px 0 }
+			footer { display:flex; justify-content:space-between; align-items:center; max-width:var(--width); margin-top:auto; padding-top:42px; border-top:1px solid var(--soft); color:var(--muted); font-size:13px }
+			.footer-links { display:flex; gap:20px }
+			@media (max-width:900px) {
+				.layout { display:block }
+				.sidebar { position:fixed; z-index:3; display:flex; width:100%; height:68px; padding:0 24px; align-items:center; justify-content:space-between; background:var(--header); backdrop-filter:blur(12px) }
+				.logo { margin:0 }
+				.menu { flex-direction:row; gap:18px }
+				main { max-width:none; padding:108px 24px 48px }
+				h1 { font-size:38px }
+				.intro { font-size:19px; margin-bottom:36px }
+				.rows,footer { max-width:none }
+			}
+			@media (max-width:600px) {
+				body:has(#nav-toggle:checked) { overflow:hidden }
+				.sidebar { height:60px; padding:0 18px; backdrop-filter:none }
+				.nav-button { z-index:5; display:flex; width:32px; height:32px; padding:7px 5px; flex-direction:column; justify-content:space-around; cursor:pointer }
+				#nav-toggle:focus-visible + .nav-button { outline:2px solid var(--ink); outline-offset:2px }
+				.nav-button i { display:block; height:1.5px; background:var(--ink); transition:.2s }
+				.menu { position:fixed; inset:0; z-index:4; display:flex; visibility:hidden; opacity:0; background:var(--bg); flex-direction:column; align-items:center; justify-content:center; gap:20px; transition:opacity .2s,visibility .2s }
+				.menu a { font-size:26px; color:var(--muted) }
+				#nav-toggle:checked ~ .menu { visibility:visible; opacity:1 }
+				#nav-toggle:checked + .nav-button i:first-child { transform:translateY(6px) rotate(45deg) }
+				#nav-toggle:checked + .nav-button i:nth-child(2) { opacity:0 }
+				#nav-toggle:checked + .nav-button i:last-child { transform:translateY(-6px) rotate(-45deg) }
+				main { padding:91px 18px 40px }
+				h1 { margin-bottom:22px; font-size:clamp(30px,9vw,36px); line-height:1.1 }
+				.intro { font-size:18px; line-height:1.6 }
+				.row { grid-template-columns:1fr; gap:12px; padding:17px 0 23px; scroll-margin-top:75px }
+				.row h2 { margin:0; font-size:11px }
+				footer { align-items:flex-start; gap:20px; padding-top:30px }
+			}
+			@media (prefers-color-scheme:dark) { :root { --bg:#111; --ink:#eee; --secondary:#bbb; --muted:#8d8d8d; --line:#383838; --soft:#2b2b2b; --dash:#686868; --header:rgba(17,17,17,.96) } }
+			@media (prefers-reduced-motion:reduce) { html { scroll-behavior:auto } * { transition:none!important } }
+		</style>
 	</head>
-	<style>
-		* {
-			box-sizing: border-box;
-		}
-		body {
-			margin: 0;
-			font: 1.2em/1.62 sans-serif;
-		}
-		a {
-			color: inherit;
-			text-decoration: none;
-		}
-		main {
-			margin: 0 auto;
-			max-width: 50em;
-			padding: 0 0.62em 3.24em;
-		}
-		.site-bar {
-			display: flex;
-			align-items: center;
-			justify-content: space-between;
-			gap: 1.5rem;
-			padding: 1rem max(1rem, 4vw);
-			background: canvas;
-			color: canvasText;
-		}
-		header.site-bar {
-			position: sticky;
-			top: 0;
-			z-index: 3;
-		}
-		footer.site-bar {
-			padding-block: 1.5rem;
-		}
-		.who {
-			display: flex;
-			flex-wrap: wrap;
-			padding: 0;
-			list-style: none;
-		}
-		.who li {
-			display: flex;
-			flex-direction: column;
-			align-items: center;
-			gap: 0.5rem;
-			text-align: center;
-		}
-		.who img {
-			width: 10rem;
-			height: 10rem;
-			border-radius: 1rem;
-		}
-		.who .name {
-			margin: 0;
-			font-weight: bold;
-		}
-		.who .role {
-			margin: 0;
-			color: color-mix(in srgb, canvasText 75%, canvas);
-		}
-		.site-title {
-			margin: 0;
-			font-size: 1em;
-			line-height: 1;
-			font-weight: bold;
-			position: relative;
-			z-index: 3;
-		}
-		.site-note {
-			margin: 0.25rem 0 0;
-			color: color-mix(in srgb, canvasText 75%, canvas);
-			font-size: 0.9em;
-		}
-		.site-links {
-			display: flex;
-			gap: 1.25rem;
-			margin-left: auto;
-		}
-		.menu-toggle {
-			display: none;
-		}
-		.hamburger {
-			display: none;
-			width: 2.5rem;
-			height: 2.5rem;
-			margin-left: auto;
-			cursor: pointer;
-			flex-direction: column;
-			justify-content: center;
-			align-items: center;
-			gap: 0.35rem;
-			position: relative;
-			z-index: 3;
-		}
-		.hamburger span {
-			display: block;
-			width: 2rem;
-			height: 2px;
-			background: currentColor;
-			border-radius: 999px;
-			transition:
-				transform 150ms ease,
-				opacity 150ms ease;
-		}
-		.faqtable dt { font-style: italic; }
-		.faqtable dd { margin-left: 1em; margin-bottom: 1em; }
-		@media (max-width: 40rem) {
-			body:has(.menu-toggle:checked) {
-				overflow: hidden;
-			}
-			.hamburger {
-				display: flex;
-			}
-			.site-menu {
-				display: none;
-				position: fixed;
-				inset: 0;
-				margin-left: 0;
-				padding: 7rem max(1rem, 8vw) 2rem;
-				background: Canvas;
-				flex-direction: column;
-				align-items: flex-start;
-				font-size: 1.25em;
-				z-index: 1;
-			}
-			.menu-toggle:checked ~ .site-menu {
-				display: flex;
-			}
-			.menu-toggle:checked + .hamburger span:nth-child(1) {
-				transform: translateY(0.45rem) rotate(45deg);
-			}
-			.menu-toggle:checked + .hamburger span:nth-child(2) {
-				opacity: 0;
-			}
-			.menu-toggle:checked + .hamburger span:nth-child(3) {
-				transform: translateY(-0.45rem) rotate(-45deg);
-			}
-			footer.site-bar {
-				flex-direction: column;
-				align-items: flex-start;
-			}
-			footer .site-links {
-				margin-left: 0;
-				flex-wrap: wrap;
-			}
-		}
-	</style>
 	<body>
-		<header class="site-bar">
-			<h1 class="site-title"><a href="#">TinyEDA</a></h1>
-			<input id="menu-toggle" class="menu-toggle" type="checkbox" />
-			<label class="hamburger" for="menu-toggle" aria-label="Menu">
-				<span></span><span></span><span></span>
-			</label>
-			<nav class="site-links site-menu">
-				<a href="#what">What</a>
-				<a href="#why">Why</a>
-				<a href="#how">How</a>
-				<a href="#who">Who</a>
-				<a href="#faq">FAQ</a>
-				<a href="https://github.com/tinyeda">GitHub</a>
-			</nav>
-		</header>
-		<main>
-			<h2 id="what">What?</h2>
-			<p>
-				<b>TinyEDA</b> is building simple & high performance Electronic Design Automation (EDA) tools and chip design IP to accelerate chip design.
-			</p>
-			<h2 id="why">Why?</h2>
-			<p>
-				Most EDA tools were built decades
-				ago (~1980s).<br />
-				Therefore a lot of these tools were built under assumptions of
-				computing very different to how modern day computing works.<br />
-				All of these tools have an arcane look / user-experience and
-				require a lot of scripting to get things done.<br />
-				This is ultimately good for EDA tool vendors since they will
-				happily charge for setting things up and provide you with an
-				environment that <i>just works</i>.<br />
-				We are changing this by building performant, user-friendly
-				tools, so you don't have to spend time writing
-				tcl / python scripts orchestrating different workflows and can
-				spend time actually working on your product's design.
-			</p>
-			<h2 id="how">How?</h2>
-			<p id="tinyeda-studio">
-				<b>TinyEDA Studio</b> is an Integrated Design Environment (IDE) for ASIC design to massively accelerate the Physical Design process while providing better PPA (Performance, Placement, Area) results. We also provide users with much better debuggability to trace root causes of errors in the design back to original RTL.
-			<br>We are creating faster / simpler tools using the following methods:
-			<ul>
-				<li>Developing faster algorithms (classic / ML) (for macro placement, place and route & static timing analysis)</li>
-				<li>GPU accelerating massively parallelizable workloads and using SIMD / Vector compute for CPU workloads.</li>
-				<li>Creating well-designed APIs eliminating glue scripting code between tools.</li>
-				</ul>
-			</p>
-			<p id ="tinyeda-ip">
-				We will also use these tools internally alongside other automated schematic, layout and simulation tooling to create <b>design IP</b> targeting the following industries:
-			<ol>
-				<li>Automotive</li>
-				<li>Aerospace (Radiation Hardened)</li>
-				<li>Consumer Electronics</li>
-				<li>Industrial Automation</li>
-				<li>Medical</li>
-				<li>Nuclear (Radiation Hardened)</li>
-			</ol>
-			</p>
-				<h2 id="who">Who?</h2>
-				<ul class="who">
-				<li>
-					<img src="assets/rahul.webp" alt="Rahul Bhagwat" loading="lazy" decoding="async" />
-					<p class="name">Rahul Bhagwat</p>
-					<p class="role">Founder</p>
-				</li>
-				</ul>
-				<h2 id="faq">FAQ</h2>
-				<dl class="faqtable">
-					<dt>Will i be able to run this fully locally?</dt>
-					<dd>Yes, we will have local apps for mac, windows, linux as well as a collaborative webapp</dd>
-					<dt>How difficult is it to switch over from my existing EDA suite?</dt>
-					<dd>We will provide tooling to port over all your tcl scripts and other tool specific config to make the switching process painless and inexpensive for your org</dd>
-					<dt>Mistakes can be expensive, why should we trust results from your software?</dt>
-					<dd>We will be formally verifying equivalence where possible and work closely with foundries to qualify our tools to be signoff ready.</dd>
-				</dl>
-				</main>
-		<footer class="site-bar">
-			<div>
-				<p class="site-title">TinyEDA</p>
-				<p class="site-note">
-					Copyright © 2026 TinyEDA. All rights reserved.
-				</p>
-			</div>
-			<nav class="site-links">
-				<a href="mailto:rahul@tinyeda.com">Email</a>
-				<a href="https://github.com/tinyeda">GitHub</a>
-			</nav>
-		</footer>
+		<div class="layout">
+			<header class="sidebar">
+				<a class="logo" href="#what"><span class="mark"></span>TinyEDA</a>
+				<input id="nav-toggle" type="checkbox">
+				<label class="nav-button" for="nav-toggle" aria-label="Toggle navigation"><i></i><i></i><i></i></label>
+				<nav class="menu" aria-label="Main navigation">
+					<a href="#what">What</a>
+					<a href="#why">Why</a>
+					<a href="#how">How</a>
+					<a href="#who">Who</a>
+					<a href="#faq">FAQ</a>
+					<a href="https://github.com/tinyeda">GitHub</a>
+				</nav>
+			</header>
+			<main>
+				<h1 id="what">Accelerating chip design.</h1>
+				<div class="intro">
+					<p>Go from idea to tapeout 100x faster</p>
+				</div>
+				<div class="rows">
+					<section class="row" id="why">
+						<h2>Why</h2>
+						<div class="copy">
+							<p>Most EDA tooling was built decades ago, under assumptions very different from modern computing. Their arcane user experience requires extensive scripting to get work done.</p>
+							<p>EDA vendors aren't incentivised to build simpler tools since they can charge to set up and provide you with  an environment that <em>just works</em>.</p>
+							<p>We are changing this with performant, user-friendly tools so you can spend time on your design instead of endless Tcl / Python scripting to orchestrate workflows.</p>
+						</div>
+					</section>
+					<section class="row" id="how">
+						<h2>How</h2>
+						<div class="copy">
+							<p><strong>TinyEDA Studio</strong> is an integrated digital ASIC design environment. It massively accelerates the physical design process, improves performance, power, and area (PPA) results, and makes it easier to trace design errors back to original RTL.</p>
+							<span class="subhead">Faster, simpler tools</span>
+							<ul>
+								<li>Faster classical and ML algorithms for macro placement, place and route, and static timing analysis.</li>
+								<li>GPU acceleration for massively parallel workloads and SIMD/vector compute for CPU workloads.</li>
+								<li>Well-designed APIs that eliminate glue code between tools.</li>
+							</ul>
+							<span class="subhead">Design IP</span>
+							<p>We will use these tools internally alongside automated schematic, layout, and simulation tooling to create digital / analog design IP for:</p>
+							<ol>
+								<li>Automotive</li><li>Aerospace (radiation hardened)</li><li>Consumer electronics</li><li>Industrial automation</li><li>Medical</li><li>Nuclear (radiation hardened)</li>
+							</ol>
+						</div>
+					</section>
+					<section class="row" id="who">
+						<h2>Who</h2>
+						<div class="copy person">
+							<img src="assets/rahul.webp" alt="Rahul Bhagwat" loading="lazy" decoding="async">
+							<div><p><strong>Rahul Bhagwat</strong></p><p class="role">Founder</p></div>
+						</div>
+					</section>
+					<section class="row" id="faq">
+						<h2>FAQ</h2>
+						<div class="copy">
+							<details><summary>Can I run this locally?</summary><p>Yes. We will have local apps for MacOS, Windows, and Linux, as well as a collaborative web app hostable on-premise.</p></details>
+							<details><summary>How difficult is it to switch from my existing EDA suite?</summary><p>We will provide tooling to port your Tcl scripts and tool-specific configurations, making the switch painless and inexpensive for your organization.</p></details>
+							<details><summary>Why should we trust your tool?</summary><p>We will formally verify equivalence where applicable and work closely with foundries to qualify our tools as signoff-ready.</p></details>
+						</div>
+					</section>
+				</div>
+				<footer>
+					<span>© 2026 TinyEDA</span>
+					<nav class="footer-links" aria-label="Footer navigation"><a href="mailto:rahul@tinyeda.com">Contact</a><a href="https://github.com/tinyeda">GitHub</a></nav>
+				</footer>
+			</main>
+		</div>
 		<script>
-			document.querySelectorAll(".site-menu a").forEach((a) => a.addEventListener("click", () => (document.getElementById("menu-toggle").checked = false)));
+			const links=[...document.querySelectorAll('.menu a[href^="#"]')],sections=links.map(a=>document.querySelector(a.hash));let selected;
+			function mark(section){links.forEach(a=>a.classList.toggle('active',a.hash==='#'+section.id))}
+			function setActive(){if(selected)return mark(selected);let current=sections[0],max=document.documentElement.scrollHeight-innerHeight||1,line=120+scrollY/max*(innerHeight*.75-120);for(const section of sections)if(section.getBoundingClientRect().top<=line)current=section;mark(current)}
+			document.querySelectorAll('.menu a').forEach(a=>a.addEventListener('click',()=>{document.querySelector('#nav-toggle').checked=false;if(a.hash){selected=document.querySelector(a.hash);mark(selected)}}));
+			sections.forEach(section=>section.addEventListener('pointerdown',()=>{selected=section;mark(section)}));
+			for(const event of ['wheel','touchstart'])addEventListener(event,()=>selected=null,{passive:true});
+			addEventListener('keydown',e=>{if(['ArrowDown','ArrowUp','PageDown','PageUp','Home','End',' '].includes(e.key))selected=null});
+			addEventListener('scroll',setActive,{passive:true});setActive();
 		</script>
 	</body>
 </html>
